@@ -271,3 +271,46 @@ where amount < prev_sales
     where comes before lag so it will give an error */
 
 
+
+
+    ----------------------------    
+
+    CREATE TABLE user_logins (
+    login_date DATE
+);
+
+INSERT INTO user_logins VALUES
+('2026-09-01'),
+('2026-09-02'),
+('2026-09-03'),
+('2026-09-05'),
+('2026-09-06'),
+('2026-09-09');
+
+
+select * from user_logins
+
+
+
+
+--Q) "Show each login_date with a row number (rn), ordered by date."
+
+    with CTE as (
+    select login_date, 
+    row_number() over(
+    order by login_date) as rn 
+    from user_logins
+    ),
+    labeled as(
+    select login_date,rn,
+    dateadd(day,-rn,login_date) as grp
+    from CTE
+    )
+
+    select top 1 min(login_date) as starting_date,
+    max(login_date) as ending_date,
+    count(*) as days
+    from labeled
+    group by grp
+    order by days desc 
+
