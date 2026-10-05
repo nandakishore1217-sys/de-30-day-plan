@@ -1,0 +1,8 @@
+John,25 
+Alice,30 
+Bob,28
+apple,
+banana, 
+apple, 
+apple, 
+banana
